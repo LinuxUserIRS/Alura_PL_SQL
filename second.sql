@@ -6,7 +6,11 @@ CREATE OR REPLACE PROCEDURE inserirCliente
     p_faturamento_previsto IN cliente.faturamento_previsto%type)
 IS
     v_categoria cliente.categoria%type;
+    /* Vou mudar o valor do CNPJ, então tenho que copiar o valor do param em uma variavel */
+    v_CNPJ cliente.CNPJ%type:=p_CNPJ;
 BEGIN
+    /* Chamo o proedure pra formatar o cnpj */
+    formatCNPJ(v_CNPJ);
     v_categoria:=categoriaCliente(p_faturamento_previsto);
     INSERT INTO cliente VALUES (p_id, upper(p_razao_social), p_CNPJ, p_segmercado_id, SYSDATE, p_faturamento_previsto, upper(v_categoria));
     COMMIT;
